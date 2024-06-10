@@ -16,6 +16,7 @@ public class EmployeeDAO {
     private static final String deleteEmployee = "delete from employees where employee_id = ?";
     private static final String select_Emp_hire_date = "select * from employees where hire_date LIKE ? || '%'";
     private static final String select_Emp_job_id = "select * from employees where job_id = ?";
+    private static final String select_Emp_last_n = "select * from employees where Last_name = ?";
 
 
 
@@ -124,7 +125,19 @@ public class EmployeeDAO {
 //        }
 //    }
 
-
+    public employees select_Emp_last_n(String Last_name) throws SQLException, ClassNotFoundException {
+        Class.forName("org.sqlite.JDBC");
+        Connection conn = DriverManager.getConnection(URL);
+        PreparedStatement st = conn.prepareStatement(select_Emp_last_n);
+        st.setString(1, Last_name);
+        ResultSet rs = st.executeQuery();
+        if(rs.next()) {
+            return new employees(rs);
+        }
+        else {
+            return null;
+        }
+    }
 
 
 }
