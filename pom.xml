@@ -7,10 +7,10 @@
     <artifactId>HrApiDay10</artifactId>
     <packaging>war</packaging>
     <version>1.0-SNAPSHOT</version>
-    <name>HrApiDay9</name>
+    <name>HrApiDay10</name>
 
     <build>
-        <finalName>HrApiDay9</finalName>
+        <finalName>HrApiDay10</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

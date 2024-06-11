@@ -17,6 +17,9 @@ public class EmployeeDAO {
     private static final String select_Emp_hire_date = "select * from employees where hire_date LIKE ? || '%'";
     private static final String select_Emp_job_id = "select * from employees where job_id = ?";
     private static final String select_Emp_last_n = "select * from employees where Last_name = ?";
+    private static final String SELECT_ONE_EMP_JOIN_JOBS = "select * from employees join jobs on employees.job_id = jobs.job_id where employee_id = ?";
+
+
 
 
 
@@ -40,7 +43,8 @@ public class EmployeeDAO {
     public employees selectEmployee(int idEmp) throws SQLException, ClassNotFoundException {
         Class.forName("org.sqlite.JDBC");
         Connection conn = DriverManager.getConnection(URL);
-        PreparedStatement st = conn.prepareStatement(selectEmployee);
+//        PreparedStatement st = conn.prepareStatement(selectEmployee);
+        PreparedStatement st = conn.prepareStatement(SELECT_ONE_EMP_JOIN_JOBS);
         st.setInt(1, idEmp);
         ResultSet rs = st.executeQuery();
         if(rs.next()) {

@@ -1,6 +1,8 @@
 package org.example.services;
 
 
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.context.RequestScoped;
 
@@ -12,4 +14,5 @@ public class ApplicationService {
     public int getCount() {
         return ++count;
     }
+
 }

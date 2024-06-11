@@ -38,7 +38,6 @@ public class AuthFilter implements ContainerRequestFilter {
                 throw new RuntimeException(e);
             }
         }
-
         ErrorMessage err = new ErrorMessage();
         err.setErrorContent("Please login");
         err.setErrorCode(Response.Status.UNAUTHORIZED.getStatusCode());

@@ -5,9 +5,9 @@ import org.example.models.jobs;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(componentModel = "cdi")
 public interface jobsMapper {
-    jobsMapper INSTANCE = Mappers.getMapper(jobsMapper.class);
+//    jobsMapper INSTANCE = Mappers.getMapper(jobsMapper.class);
     jobsDto tojobtDto(jobs j);
     jobs toModel(jobsDto dto);
 

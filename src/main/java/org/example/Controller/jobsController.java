@@ -1,5 +1,6 @@
 package org.example.Controller;
 
+import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
 import org.example.dao.jobsDAO;
@@ -17,6 +18,9 @@ public class jobsController {
      jobsDAO jo = new jobsDAO();
      @Context UriInfo uriInfo;
      @Context HttpHeaders headers;
+
+     @Inject
+     jobsMapper mapper;
 
      @GET
      @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON, "text/csv"})
@@ -62,7 +66,7 @@ public class jobsController {
 //                dto.setJob_title(jj.getJob_title());
 //                dto.setMin_salary(jj.getMin_salary());
 //                dto.setMax_salary(jj.getMax_salary());
-               jobsDto dto = jobsMapper.INSTANCE.tojobtDto(jj);
+               jobsDto dto = mapper.tojobtDto(jj);
 
                 addLinks(dto);
 
@@ -103,7 +107,7 @@ public class jobsController {
      @POST
      public Response INSERT_jobs(jobsDto dto) {
           try {
-               jobs jj = jobsMapper.INSTANCE.toModel(dto);
+               jobs jj = mapper.toModel(dto);
                jo.INSERT_jobs(jj);
                return Response.status(Response.Status.CREATED).build();
           } catch (Exception e) {

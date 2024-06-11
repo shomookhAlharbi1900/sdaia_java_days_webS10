@@ -1,10 +1,13 @@
-package org.example.models;
+package org.example.dto;
+
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
-public class employees {
+@XmlRootElement
+public class EmployeeDto {
     private int employee_id ;
     private String first_name ;
     private String last_name ;
@@ -14,18 +17,22 @@ public class employees {
     private int job_id;
     private double salary;
     private int manager_id;
-    private int department_id ;
-    private jobs job;
+    private int department_id;
+    private ArrayList<LinkDto> links = new ArrayList<>();
+    private jobsDto job ;
 
-    public jobs getJob() {
+    public jobsDto getJob() {
         return job;
     }
 
-    public void setJob(jobs job) {
-        this.job = job;
+    public void setJob(jobsDto jo) {
+        this.job = jo;
     }
 
-    public employees(int employee_id, String first_name, String last_name, String email, String phone_number, String hire_date, int job_id, double salary, int manager_id, int department_id) {
+    public EmployeeDto() {
+    }
+
+    public EmployeeDto(int employee_id, String first_name, String last_name, String email, String phone_number, String hire_date, int job_id, double salary, int manager_id, int department_id, ArrayList<LinkDto> links) {
         this.employee_id = employee_id;
         this.first_name = first_name;
         this.last_name = last_name;
@@ -36,11 +43,9 @@ public class employees {
         this.salary = salary;
         this.manager_id = manager_id;
         this.department_id = department_id;
+        this.links = links;
     }
 
-    public employees() {
-
-    }
 
     public int getEmployee_id() {
         return employee_id;
@@ -122,42 +127,25 @@ public class employees {
         this.department_id = department_id;
     }
 
-    public employees(ResultSet rs) throws SQLException {
-        employee_id = rs.getInt("employee_id");
-        first_name = rs.getString("first_name");
-        last_name = rs.getString("last_name");
-        email = rs.getString("email");
-        phone_number = rs.getString("phone_number");
-        hire_date = rs.getString("hire_date");
-        job_id = rs.getInt("job_id");
-        salary = rs.getDouble("salary");
-        manager_id = rs.getInt("manager_id");
-        department_id = rs.getInt("department_id");
-        ResultSetMetaData mt = rs.getMetaData();
-        if(mt.getColumnCount() > 10) {
-            job = new jobs(rs);
-        }
+    public ArrayList<LinkDto> getLinks() {
+        return links;
     }
 
-//    @Override
-//    public String toString() {
-//        return "Employees{" +
-//                "employee_id=" + employee_id +
-//                ", first_name='" + first_name + '\'' +
-//                ", last_name='" + last_name + '\'' +
-//                ", email='" + email + '\'' +
-//                ", phone_number='" + phone_number + '\'' +
-//                ", hire_date='" + hire_date + '\'' +
-//                ", job_id=" + job_id +
-//                ", salary=" + salary +
-//                ", manager_id=" + manager_id +
-//                ", department_id=" + department_id +
-//                '}';
-//    }
+    public void setLinks(ArrayList<LinkDto> links) {
+        this.links = links;
+    }
+
+    public void addLink(String url, String rel) {
+        LinkDto link = new LinkDto();
+        link.setLink(url);
+        link.setRel(rel);
+        links.add(link);
+    }
+
 
     @Override
     public String toString() {
-        return "employees{" +
+        return "EmployeeDto{" +
                 "employee_id=" + employee_id +
                 ", first_name='" + first_name + '\'' +
                 ", last_name='" + last_name + '\'' +
@@ -168,7 +156,7 @@ public class employees {
                 ", salary=" + salary +
                 ", manager_id=" + manager_id +
                 ", department_id=" + department_id +
-                ", job=" + job +
+                ", links=" + links +
                 '}';
     }
 }

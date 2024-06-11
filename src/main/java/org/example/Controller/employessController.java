@@ -1,34 +1,44 @@
 package org.example.Controller;
 
+import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
 import org.example.dao.EmployeeDAO;
+import org.example.dao.jobsDAO;
+import org.example.dto.EmployeeDto;
 import org.example.dto.employeeFilterDto;
+import org.example.dto.jobsDto;
+import org.example.mappers.employeesMapper;
 import org.example.models.employees;
+import org.example.models.jobs;
 
 import java.util.ArrayList;
 
 @Path("/employees")
 public class employessController {
     EmployeeDAO em = new EmployeeDAO();
+    jobsDAO jodao= new jobsDAO();
     @Context
     UriInfo uriInfo;
     @Context
     HttpHeaders headers;
 
+    @Inject
+    employeesMapper mapper;
+
     @GET
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public Response selectAllEmployees(@BeanParam employeeFilterDto filter) {
         try {
-            GenericEntity<ArrayList<employees>> job = new GenericEntity<ArrayList<employees>>(em.selectAllEmployees(filter)) {};
+            GenericEntity<ArrayList<employees>> emps = new GenericEntity<ArrayList<employees>>(em.selectAllEmployees(filter)) {};
             if(headers.getAcceptableMediaTypes().contains(MediaType.valueOf(MediaType.APPLICATION_XML))) {
                 return Response
-                        .ok(job)
+                        .ok(emps)
                         .type(MediaType.APPLICATION_XML)
                         .build();
             }
             return Response
-                    .ok(job, MediaType.APPLICATION_JSON)
+                    .ok(emps, MediaType.APPLICATION_JSON)
                     .build();
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -40,16 +50,21 @@ public class employessController {
     public Response selectEmployee(@PathParam("employee_id") int employee_id) {
         try {
             employees emp = em.selectEmployee(employee_id);
+//            jobs jo =jodao.SELECT_ONE_id_job(emp.getJob_id());
+            EmployeeDto dto = mapper.toEmpDto(emp);
+
             if(headers.getAcceptableMediaTypes().contains(MediaType.valueOf(MediaType.APPLICATION_XML))) {
                 return Response
-                        .ok(emp)
+                        .ok(dto)
                         .type(MediaType.APPLICATION_XML)
                         .build();
             }
+//            jobs jo =jodao.SELECT_ONE_id_job(emp.getJob_id());
             return Response
-                    .ok(emp, MediaType.APPLICATION_JSON)
+                    .ok(dto, MediaType.APPLICATION_JSON)
                     .build();
-
+//            jobs jo =jodao.SELECT_ONE_id_job(emp.getJob_id());
+//            jobsDto dto = employeesMapper.INSTANCE.toEmpDto(emp,jo);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -19,6 +19,9 @@ public class jobsDto {
 //        this.job_title = job_title;
 //    }
 
+
+
+
     public jobsDto() {}
 
     public jobsDto(int job_id, String job_title, double min_salary, double max_salary) {
